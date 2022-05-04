@@ -179,16 +179,18 @@ public class BotApplication extends TelegramLongPollingBot {
     }
 
     private void checkSupervisor(Update update) {
-        boolean existsByChatId = supervisorRepository.existsByChatId(update.getMessage().getFrom().getId().toString());
-        if (!existsByChatId) {
-            Supervisor supervisor = new Supervisor(
-                    update.getMessage().getFrom().getFirstName(),
-                    update.getMessage().getFrom().getLastName(),
-                    update.getMessage().getFrom().getUserName(),
-                    update.getMessage().getFrom().getId().toString(),
-                    update.getMessage().getChatId().toString()
-            );
-            supervisorRepository.save(supervisor);
+        if (!update.getMessage().hasText()) {
+            boolean existsByChatId = supervisorRepository.existsByChatId(update.getMessage().getFrom().getId().toString());
+            if (!existsByChatId) {
+                Supervisor supervisor = new Supervisor(
+                        update.getMessage().getFrom().getFirstName(),
+                        update.getMessage().getFrom().getLastName(),
+                        update.getMessage().getFrom().getUserName(),
+                        update.getMessage().getFrom().getId().toString(),
+                        update.getMessage().getChatId().toString()
+                );
+                supervisorRepository.save(supervisor);
+            }
         }
     }
 
