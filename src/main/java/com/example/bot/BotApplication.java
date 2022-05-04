@@ -16,6 +16,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.pinnedmessages.PinChatMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
@@ -287,9 +288,12 @@ public class BotApplication extends TelegramLongPollingBot {
             sendMessage.setText("Video jiberiw waqitlar o'zgerdi!!! " + timeDto.getStartHour() + ":" + timeDto.getStartMinute() + " dan " +
                     timeDto.getEndHour() + ":" + timeDto.getEndMinute() + " qa o'zgerdi!!!");
 
-            Integer messageId = execute(sendMessage).getMessageId();
+            Message execute = execute(sendMessage);
+//            Integer messageId = execute(sendMessage).getMessageId();
+
             // Pin group message
             Optional<Supervisor> byId = supervisorRepository.findById(1l);
+
             Supervisor supervisor = byId.get();
 
 //            Optional<Report> optionalReport = reportRepository.findById(supervisor.getId());
@@ -300,7 +304,7 @@ public class BotApplication extends TelegramLongPollingBot {
 
             sendApiMethodAsync(PinChatMessage.builder()
                     .chatId(String.valueOf(supervisor.getGroupChatId()))
-                    .messageId(Integer.valueOf(messageId))
+                    .messageId(Integer.valueOf(execute.getMessageId()))
                     .build());
 
             return true;
