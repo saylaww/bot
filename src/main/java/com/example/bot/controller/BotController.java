@@ -26,6 +26,13 @@ public class BotController {
         return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
     }
 
+    @GetMapping("/getAllReport")
+    public HttpEntity<?> getAllReport() {
+        ApiResponse apiResponse = botService.getAllReport();
+        return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
+    }
+
+
     @GetMapping("/byDate")
     public HttpEntity<?> getByDate(@RequestBody DateDto dateDto) throws ParseException {
         ApiResponse apiResponse = botService.byDate(dateDto);

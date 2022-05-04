@@ -99,6 +99,8 @@ public class BotService {
     }
 
 
-
-
+    public ApiResponse getAllReport() {
+        List<Report> all = reportRepository.findAll();
+        return new ApiResponse("All Report list", true, all);
+    }
 }
