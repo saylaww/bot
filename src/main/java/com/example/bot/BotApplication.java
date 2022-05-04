@@ -74,7 +74,9 @@ public class BotApplication extends TelegramLongPollingBot {
                         if (hours==Integer.valueOf(rule.getStartHour()) && minutes <= Integer.valueOf(rule.getEndMinute())) {
                             //TODO
                             System.out.println(update.getMessage().getChat().getId());
-                            String txt = "tg://openmessage?chat_id=" + (update.getMessage().getChatId() * (-1)) + "&message_id=" + update.getMessage().getMessageId();
+//                            String txt = "tg://openmessage?chat_id=" + (update.getMessage().getChatId() * (-1)) + "&message_id=" + update.getMessage().getMessageId();
+                            //https://t.me/c/1651510322/14
+                            String txt = "https://t.me/c/" + update.getMessage().getDate() + "/" + update.getMessage().getMessageId();
 //                        String urls = "https://api.telegram.org/file/bot" +Constants.BOT_TOKEN+ '/' +filePath;
                             sendMessage.setText(txt);
 
@@ -90,7 +92,8 @@ public class BotApplication extends TelegramLongPollingBot {
                         }else if (minutes <= Integer.valueOf(rule.getEndMinute()) || minutes >= Integer.valueOf(rule.getEndMinute())){
                             //TODO
                             System.out.println(update.getMessage().getChat().getId());
-                            String txt = "tg://openmessage?chat_id=" + (update.getMessage().getChatId() * (-1)) + "&message_id=" + update.getMessage().getMessageId();
+//                            String txt = "tg://openmessage?chat_id=" + (update.getMessage().getChatId() * (-1)) + "&message_id=" + update.getMessage().getMessageId();
+                            String txt = "https://t.me/c/" + update.getMessage().getDate() + "/" + update.getMessage().getMessageId();
 //                        String urls = "https://api.telegram.org/file/bot" +Constants.BOT_TOKEN+ '/' +filePath;
                             sendMessage.setText(txt);
 
@@ -110,7 +113,8 @@ public class BotApplication extends TelegramLongPollingBot {
                         if (hours==Integer.valueOf(rule.getEndHour()) && minutes <= Integer.valueOf(rule.getEndMinute())) {
                             //TODO
                             System.out.println(update.getMessage().getChat().getId());
-                            String txt = "tg://openmessage?chat_id=" + (update.getMessage().getChatId() * (-1)) + "&message_id=" + update.getMessage().getMessageId();
+//                            String txt = "tg://openmessage?chat_id=" + (update.getMessage().getChatId() * (-1)) + "&message_id=" + update.getMessage().getMessageId();
+                            String txt = "https://t.me/c/" + update.getMessage().getDate() + "/" + update.getMessage().getMessageId();
 //                        String urls = "https://api.telegram.org/file/bot" +Constants.BOT_TOKEN+ '/' +filePath;
                             sendMessage.setText(txt);
 
@@ -126,7 +130,8 @@ public class BotApplication extends TelegramLongPollingBot {
                         }else if (hours < Integer.valueOf(rule.getEndHour()) && (minutes <=Integer.valueOf(rule.getEndMinute()) || minutes >= Integer.valueOf(rule.getEndMinute()))){
                             //TODO
                             System.out.println(update.getMessage().getChat().getId());
-                            String txt = "tg://openmessage?chat_id=" + (update.getMessage().getChatId() * (-1)) + "&message_id=" + update.getMessage().getMessageId();
+//                            String txt = "tg://openmessage?chat_id=" + (update.getMessage().getChatId() * (-1)) + "&message_id=" + update.getMessage().getMessageId();
+                            String txt = "https://t.me/c/" + update.getMessage().getDate() + "/" + update.getMessage().getMessageId();
 //                        String urls = "https://api.telegram.org/file/bot" +Constants.BOT_TOKEN+ '/' +filePath;
                             sendMessage.setText(txt);
 
