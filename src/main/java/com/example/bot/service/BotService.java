@@ -103,4 +103,9 @@ public class BotService {
         List<Report> all = reportRepository.findAll();
         return new ApiResponse("All Report list", true, all);
     }
+
+    public ApiResponse getRule() {
+        Optional<Rule> byId = ruleRepository.findById(1);
+        return new ApiResponse("Qag`iyda", true, byId.get());
+    }
 }

@@ -26,6 +26,13 @@ public class BotController {
         return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
     }
 
+
+    @GetMapping("/getRule")
+    public HttpEntity<?> getRule() {
+        ApiResponse apiResponse = botService.getRule();
+        return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
+    }
+
     @GetMapping("/getAllReport")
     public HttpEntity<?> getAllReport() {
         ApiResponse apiResponse = botService.getAllReport();
