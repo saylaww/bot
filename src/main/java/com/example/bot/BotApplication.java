@@ -221,7 +221,7 @@ public class BotApplication extends TelegramLongPollingBot {
     }
 
 
-    @Scheduled(cron = "0 55 23 * * *")
+    @Scheduled(cron = "0 0 0 * * *")
     public void test() throws TelegramApiException, ParseException {
         Timestamp start = new Timestamp(System.currentTimeMillis());
         Timestamp end = new Timestamp(System.currentTimeMillis());
@@ -238,10 +238,10 @@ public class BotApplication extends TelegramLongPollingBot {
 
         List<Supervisor> supervisors = supervisorRepository.findAll();
 
-        sendApiMethodAsync(PinChatMessage.builder()
-                .chatId(String.valueOf(-648505196))
-                .messageId(55)
-                .build());
+//        sendApiMethodAsync(PinChatMessage.builder()
+//                .chatId(supervisors.get(1).getGroupChatId())
+//                .messageId(55)
+//                .build());
 
         Set<ReportDto> reportDtoSet = new HashSet<>();
 
