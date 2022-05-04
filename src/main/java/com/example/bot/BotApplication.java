@@ -193,7 +193,7 @@ public class BotApplication extends TelegramLongPollingBot {
     }
 
     private void checkSupervisor(Update update) {
-        if (!update.getMessage().hasText()) {
+//        if (!update.getMessage().hasText()) {
             boolean existsByChatId = supervisorRepository.existsByChatId(update.getMessage().getFrom().getId().toString());
             if (!existsByChatId) {
                 Supervisor supervisor = new Supervisor(
@@ -205,7 +205,7 @@ public class BotApplication extends TelegramLongPollingBot {
                 );
                 supervisorRepository.save(supervisor);
             }
-        }
+//        }
     }
 
     public Date convertIntToDate(Integer intDate) {
