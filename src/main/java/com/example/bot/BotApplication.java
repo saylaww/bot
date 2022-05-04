@@ -81,7 +81,7 @@ public class BotApplication extends TelegramLongPollingBot {
                             /////
                             Optional<Supervisor> byChatId = supervisorRepository.findByChatId(update.getMessage().getFrom().getId().toString());
                             Supervisor supervisor = byChatId.get();
-                            String txt = "https://t.me/c/" + supervisor.getGroupChatId() + "/" + update.getMessage().getMessageId();
+                            String txt = "https://t.me/c/" + update.getMessage().getChatId() + "/" + update.getMessage().getMessageId();
                             Report report = new Report(
                                     txt,
                                     supervisor,
@@ -102,7 +102,7 @@ public class BotApplication extends TelegramLongPollingBot {
                             /////
                             Optional<Supervisor> byChatId = supervisorRepository.findByChatId(update.getMessage().getFrom().getId().toString());
                             Supervisor supervisor = byChatId.get();
-                            String txt = "https://t.me/c/" + supervisor.getGroupChatId() + "/" + update.getMessage().getMessageId();
+                            String txt = "https://t.me/c/" + update.getMessage().getChatId() + "/" + update.getMessage().getMessageId();
                             Report report = new Report(
                                     txt,
                                     supervisor,
@@ -125,7 +125,7 @@ public class BotApplication extends TelegramLongPollingBot {
                             /////
                             Optional<Supervisor> byChatId = supervisorRepository.findByChatId(update.getMessage().getFrom().getId().toString());
                             Supervisor supervisor = byChatId.get();
-                            String txt = "https://t.me/c/" + supervisor.getGroupChatId() + "/" + update.getMessage().getMessageId();
+                            String txt = "https://t.me/c/" + update.getMessage().getChatId() + "/" + update.getMessage().getMessageId();
                             Report report = new Report(
                                     txt,
                                     supervisor,
@@ -144,7 +144,7 @@ public class BotApplication extends TelegramLongPollingBot {
                             /////
                             Optional<Supervisor> byChatId = supervisorRepository.findByChatId(update.getMessage().getFrom().getId().toString());
                             Supervisor supervisor = byChatId.get();
-                            String txt = "https://t.me/c/" + supervisor.getGroupChatId() + "/" + update.getMessage().getMessageId();
+                            String txt = "https://t.me/c/" + update.getMessage().getChatId() + "/" + update.getMessage().getMessageId();
                             Report report = new Report(
                                     txt,
                                     supervisor,
