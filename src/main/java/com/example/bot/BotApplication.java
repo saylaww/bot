@@ -51,8 +51,6 @@ public class BotApplication extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-        System.out.println(update.getMessage().getSenderChat().getMessageAutoDeleteTime());
-//1651667233/21
         checkSupervisor(update);
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(String.valueOf(update.getMessage().getChatId()));
@@ -82,7 +80,7 @@ public class BotApplication extends TelegramLongPollingBot {
                             /////
                             Optional<Supervisor> byChatId = supervisorRepository.findByChatId(update.getMessage().getFrom().getId().toString());
                             Supervisor supervisor = byChatId.get();
-                            String txt = "https://t.me/c/" + update.getMessage().getChatId() + "/" + update.getMessage().getMessageId();
+                            String txt = "https://t.me/c/" + (update.getMessage().getChatId() % 10000000000l*(-1)) + "/" + update.getMessage().getMessageId();
                             Report report = new Report(
                                     txt,
                                     supervisor,
@@ -103,7 +101,7 @@ public class BotApplication extends TelegramLongPollingBot {
                             /////
                             Optional<Supervisor> byChatId = supervisorRepository.findByChatId(update.getMessage().getFrom().getId().toString());
                             Supervisor supervisor = byChatId.get();
-                            String txt = "https://t.me/c/" + update.getMessage().getChatId() + "/" + update.getMessage().getMessageId();
+                            String txt = "https://t.me/c/" + (update.getMessage().getChatId() % 10000000000l*(-1)) + "/" + update.getMessage().getMessageId();
                             Report report = new Report(
                                     txt,
                                     supervisor,
@@ -126,7 +124,7 @@ public class BotApplication extends TelegramLongPollingBot {
                             /////
                             Optional<Supervisor> byChatId = supervisorRepository.findByChatId(update.getMessage().getFrom().getId().toString());
                             Supervisor supervisor = byChatId.get();
-                            String txt = "https://t.me/c/" + update.getMessage().getChatId() + "/" + update.getMessage().getMessageId();
+                            String txt = "https://t.me/c/" + (update.getMessage().getChatId() % 10000000000l*(-1)) + "/" + update.getMessage().getMessageId();
                             Report report = new Report(
                                     txt,
                                     supervisor,
@@ -145,7 +143,7 @@ public class BotApplication extends TelegramLongPollingBot {
                             /////
                             Optional<Supervisor> byChatId = supervisorRepository.findByChatId(update.getMessage().getFrom().getId().toString());
                             Supervisor supervisor = byChatId.get();
-                            String txt = "https://t.me/c/" + update.getMessage().getChatId() + "/" + update.getMessage().getMessageId();
+                            String txt = "https://t.me/c/" + (update.getMessage().getChatId() % 10000000000l*(-1)) + "/" + update.getMessage().getMessageId();
                             Report report = new Report(
                                     txt,
                                     supervisor,
@@ -194,7 +192,7 @@ public class BotApplication extends TelegramLongPollingBot {
     }
 
     private void checkSupervisor(Update update) {
-//        if (!update.getMessage().hasText()) {
+        if (!update.getMessage().getFrom().getIsBot()) {
             boolean existsByChatId = supervisorRepository.existsByChatId(update.getMessage().getFrom().getId().toString());
             if (!existsByChatId) {
                 Supervisor supervisor = new Supervisor(
@@ -206,7 +204,7 @@ public class BotApplication extends TelegramLongPollingBot {
                 );
                 supervisorRepository.save(supervisor);
             }
-//        }
+        }
     }
 
     public Date convertIntToDate(Integer intDate) {
