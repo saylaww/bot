@@ -18,7 +18,7 @@ public class DataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         if (initialMode.equals("always")) {
-            ruleRepository.save(new Rule("16","18","10","59"));
+            ruleRepository.save(new Rule("16","23","10","59"));
         }
     }
 
