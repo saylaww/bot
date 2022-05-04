@@ -50,8 +50,8 @@ public class BotApplication extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-        System.out.println(update.getMessage().getFrom().getId());
-
+        System.out.println(update.getMessage().getSenderChat().getMessageAutoDeleteTime());
+//1651667233/21
         checkSupervisor(update);
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(String.valueOf(update.getMessage().getChatId()));
@@ -76,36 +76,41 @@ public class BotApplication extends TelegramLongPollingBot {
                             System.out.println(update.getMessage().getChat().getId());
 //                            String txt = "tg://openmessage?chat_id=" + (update.getMessage().getChatId() * (-1)) + "&message_id=" + update.getMessage().getMessageId();
                             //https://t.me/c/1651510322/14
-                            String txt = "https://t.me/c/" + update.getMessage().getDate() + "/" + update.getMessage().getMessageId();
 //                        String urls = "https://api.telegram.org/file/bot" +Constants.BOT_TOKEN+ '/' +filePath;
-                            sendMessage.setText(txt);
 
                             /////
                             Optional<Supervisor> byChatId = supervisorRepository.findByChatId(update.getMessage().getFrom().getId().toString());
                             Supervisor supervisor = byChatId.get();
+                            String txt = "https://t.me/c/" + supervisor.getGroupChatId() + "/" + update.getMessage().getMessageId();
                             Report report = new Report(
                                     txt,
                                     supervisor,
                                     update.getMessage().getMessageId().toString()
                             );
                             reportRepository.save(report);
+
+                            sendMessage.setText(txt);
+
+
                         }else if (minutes <= Integer.valueOf(rule.getEndMinute()) || minutes >= Integer.valueOf(rule.getEndMinute())){
                             //TODO
                             System.out.println(update.getMessage().getChat().getId());
 //                            String txt = "tg://openmessage?chat_id=" + (update.getMessage().getChatId() * (-1)) + "&message_id=" + update.getMessage().getMessageId();
-                            String txt = "https://t.me/c/" + update.getMessage().getDate() + "/" + update.getMessage().getMessageId();
+                            //https://t.me/c/1651510322/14
 //                        String urls = "https://api.telegram.org/file/bot" +Constants.BOT_TOKEN+ '/' +filePath;
-                            sendMessage.setText(txt);
 
                             /////
                             Optional<Supervisor> byChatId = supervisorRepository.findByChatId(update.getMessage().getFrom().getId().toString());
                             Supervisor supervisor = byChatId.get();
+                            String txt = "https://t.me/c/" + supervisor.getGroupChatId() + "/" + update.getMessage().getMessageId();
                             Report report = new Report(
                                     txt,
                                     supervisor,
                                     update.getMessage().getMessageId().toString()
                             );
                             reportRepository.save(report);
+
+                            sendMessage.setText(txt);
                         }
                     }
                 }else if (hours > Integer.valueOf(rule.getStartHour()) && (minutes >=Integer.valueOf(rule.getStartMinute()) || minutes <=Integer.valueOf(rule.getStartMinute()))){
@@ -114,36 +119,40 @@ public class BotApplication extends TelegramLongPollingBot {
                             //TODO
                             System.out.println(update.getMessage().getChat().getId());
 //                            String txt = "tg://openmessage?chat_id=" + (update.getMessage().getChatId() * (-1)) + "&message_id=" + update.getMessage().getMessageId();
-                            String txt = "https://t.me/c/" + update.getMessage().getDate() + "/" + update.getMessage().getMessageId();
+                            //https://t.me/c/1651510322/14
 //                        String urls = "https://api.telegram.org/file/bot" +Constants.BOT_TOKEN+ '/' +filePath;
-                            sendMessage.setText(txt);
 
                             /////
                             Optional<Supervisor> byChatId = supervisorRepository.findByChatId(update.getMessage().getFrom().getId().toString());
                             Supervisor supervisor = byChatId.get();
+                            String txt = "https://t.me/c/" + supervisor.getGroupChatId() + "/" + update.getMessage().getMessageId();
                             Report report = new Report(
                                     txt,
                                     supervisor,
                                     update.getMessage().getMessageId().toString()
                             );
                             reportRepository.save(report);
+
+                            sendMessage.setText(txt);
                         }else if (hours < Integer.valueOf(rule.getEndHour()) && (minutes <=Integer.valueOf(rule.getEndMinute()) || minutes >= Integer.valueOf(rule.getEndMinute()))){
                             //TODO
                             System.out.println(update.getMessage().getChat().getId());
 //                            String txt = "tg://openmessage?chat_id=" + (update.getMessage().getChatId() * (-1)) + "&message_id=" + update.getMessage().getMessageId();
-                            String txt = "https://t.me/c/" + update.getMessage().getDate() + "/" + update.getMessage().getMessageId();
+                            //https://t.me/c/1651510322/14
 //                        String urls = "https://api.telegram.org/file/bot" +Constants.BOT_TOKEN+ '/' +filePath;
-                            sendMessage.setText(txt);
 
                             /////
                             Optional<Supervisor> byChatId = supervisorRepository.findByChatId(update.getMessage().getFrom().getId().toString());
                             Supervisor supervisor = byChatId.get();
+                            String txt = "https://t.me/c/" + supervisor.getGroupChatId() + "/" + update.getMessage().getMessageId();
                             Report report = new Report(
                                     txt,
                                     supervisor,
                                     update.getMessage().getMessageId().toString()
                             );
                             reportRepository.save(report);
+
+                            sendMessage.setText(txt);
                         }
                     }
                 }
