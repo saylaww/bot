@@ -60,6 +60,13 @@ public class BotApplication extends TelegramLongPollingBot {
 
         if (update.getMessage().hasVideoNote()) {
 
+            ///////////////////////
+//            Optional<Report> byId = reportRepository.findById(6L);
+//            Report tst = byId.get();
+//            System.out.println(tst.getDate().toString());
+            /////////////////
+
+
             Date date1 = convertIntToDate(update.getMessage().getDate());
 
             int hours = date1.getHours();

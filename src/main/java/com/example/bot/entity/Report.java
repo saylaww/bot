@@ -38,4 +38,6 @@ public class Report {
         this.supervisor = supervisor;
         this.messageId = messageId;
     }
+
+
 }
