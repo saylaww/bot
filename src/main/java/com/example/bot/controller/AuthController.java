@@ -28,11 +28,6 @@ public class AuthController {
         return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
     }
 
-    @GetMapping("/test")
-    public String test(){
-        return "TEST PAGE";
-    }
-
 
 
 }

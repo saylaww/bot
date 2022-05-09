@@ -75,7 +75,7 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
 
         userRepository.save(user);
-        return null;
+        return new ApiResponse("User edited", true);
     }
 
     public ApiResponse deleteUser(Integer id) {
