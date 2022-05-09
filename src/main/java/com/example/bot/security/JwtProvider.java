@@ -10,7 +10,7 @@ import java.util.Date;
 public class JwtProvider {
 
     private final String secretKey = "secretKey";
-    private long expireTime = 60_000*60*24*20;
+    private long expireTime = 60_000*60*24*10;
 
     public  String generateToken(String username){
         String token = Jwts
