@@ -14,7 +14,7 @@ import java.text.ParseException;
 
 //@PreAuthorize(value = "hasRole('ADMIN')")
 //@PreAuthorize(value = "hasAnyAuthority('SUPER_ADMIN','ADMIN')")
-@PreAuthorize(value = "hasAuthority('SUPER_ADMIN')")
+@PreAuthorize(value = "hasAnyAuthority('SUPER_ADMIN','ADMIN')")
 @RestController
 @RequestMapping("/bot")
 public class BotController {
