@@ -44,17 +44,17 @@ public class DataLoader implements CommandLineRunner {
             ));
 
             userRepository.save(new User(
-                    "Bill",
-                    "Gates",
-                    "bill",
+                    "Super Admin firstname",
+                    "Super Admin lastname",
+                    "sadmin",
                     passwordEncoder.encode("123"),
                     Collections.singleton(sAdmin)
             ));
 
             userRepository.save(new User(
-                    "Stieve",
-                    "Jobs",
-                    "stiv",
+                    "Admin firstname",
+                    "Admin lastname",
+                    "admin",
                     passwordEncoder.encode("456"),
                     Collections.singleton(admin)
             ));
