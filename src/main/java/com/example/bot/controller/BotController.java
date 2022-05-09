@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.text.ParseException;
 
 //@PreAuthorize(value = "hasRole('ADMIN')")
-@PreAuthorize(value = "hasAnyAuthority('SUPER_ADMIN','ADMIN')")
+//@PreAuthorize(value = "hasAnyAuthority('SUPER_ADMIN','ADMIN')")
 @RestController
 @RequestMapping("/bot")
 public class BotController {
