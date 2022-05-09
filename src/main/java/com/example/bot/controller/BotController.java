@@ -14,6 +14,7 @@ import java.text.ParseException;
 
 //@PreAuthorize(value = "hasRole('ADMIN')")
 //@PreAuthorize(value = "hasAnyAuthority('SUPER_ADMIN','ADMIN')")
+@PreAuthorize(value = "hasAuthority('SUPER_ADMIN')")
 @RestController
 @RequestMapping("/bot")
 public class BotController {
@@ -21,7 +22,6 @@ public class BotController {
     @Autowired
     BotService botService;
 
-    @PreAuthorize(value = "hasAuthority('SUPER_ADMIN')")
     @GetMapping("/getAllSupervisor")
     public HttpEntity<?> getSupervisors() {
         ApiResponse apiResponse = botService.getAllSupervisors();
