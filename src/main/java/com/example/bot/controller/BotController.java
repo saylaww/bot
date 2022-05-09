@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.text.ParseException;
 
 //@PreAuthorize(value = "hasRole('ADMIN')")
+@PreAuthorize(value = "hasAnyAuthority('SUPER_ADMIN','ADMIN')")
 @RestController
 @RequestMapping("/bot")
 public class BotController {
@@ -38,7 +39,6 @@ public class BotController {
         ApiResponse apiResponse = botService.getAllReport();
         return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
     }
-
 
     @GetMapping("/byDate")
     public HttpEntity<?> getByDate(@RequestBody DateDto dateDto) throws ParseException {
