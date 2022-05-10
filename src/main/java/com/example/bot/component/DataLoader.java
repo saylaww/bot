@@ -33,7 +33,7 @@ public class DataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         if (initialMode.equals("always")) {
-            ruleRepository.save(new Rule("0","23","1","59"));
+            ruleRepository.save(new Rule("0","23","1","59","122004314"));
 
             Role sAdmin = roleRepository.save(new Role(
                     RoleName.SUPER_ADMIN

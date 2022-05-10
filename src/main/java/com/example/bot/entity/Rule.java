@@ -25,17 +25,20 @@ public class Rule {
     private String startMinute;
     private String endMinute;
 
-//    private String startReportHour;
-//    private String endReportHour;
-//
-//    private String startReportMinute;
-//    private String endReportMinute;
-
+    private String chatId;
 
     public Rule(String startHour, String endHour, String startMinute, String endMinute) {
         this.startHour = startHour;
         this.endHour = endHour;
         this.startMinute = startMinute;
         this.endMinute = endMinute;
+    }
+
+    public Rule(String startHour, String endHour, String startMinute, String endMinute, String chatId) {
+        this.startHour = startHour;
+        this.endHour = endHour;
+        this.startMinute = startMinute;
+        this.endMinute = endMinute;
+        this.chatId = chatId;
     }
 }

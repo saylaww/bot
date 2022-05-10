@@ -5,6 +5,7 @@ import com.example.bot.entity.Report;
 import com.example.bot.entity.Rule;
 import com.example.bot.entity.Supervisor;
 import com.example.bot.payload.ApiResponse;
+import com.example.bot.payload.ChatDto;
 import com.example.bot.payload.DateDto;
 import com.example.bot.payload.TimeDto;
 import com.example.bot.repository.ReportRepository;
@@ -107,5 +108,16 @@ public class BotService {
     public ApiResponse getRule() {
         Optional<Rule> byId = ruleRepository.findById(1);
         return new ApiResponse("Qag`iyda", true, byId.get());
+    }
+
+    public ApiResponse editChatId(ChatDto chatDto) {
+        Optional<Rule> byId = ruleRepository.findById(1);
+        if (byId.isPresent()){
+            Rule rule = byId.get();
+            rule.setChatId(chatDto.getChatId());
+            ruleRepository.save(rule);
+            return new ApiResponse("Chat id o'zgerdi!!!", true);
+        }
+        return new ApiResponse("Error", false);
     }
 }

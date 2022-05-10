@@ -228,8 +228,8 @@ public class BotApplication extends TelegramLongPollingBot {
     }
 
 
-    @Scheduled(cron = "0 48 10 * * *")
-    public void test() throws TelegramApiException, ParseException {
+    @Scheduled(cron = "0 0 12 * * *")
+    public void test() throws Exception {
         Timestamp start = new Timestamp(System.currentTimeMillis());
         Timestamp end = new Timestamp(System.currentTimeMillis());
 
@@ -264,7 +264,15 @@ public class BotApplication extends TelegramLongPollingBot {
         }
 
         SendMessage sendMessage = new SendMessage();
-        sendMessage.setChatId(Constatns.SENDER_CHAT_ID);
+        Optional<Rule> byId = ruleRepository.findById(1);
+        if (!byId.isPresent()){
+            throw new Exception("Bunday qagi'yda ya'ki chat_id tabilmadi!!!");
+        }
+        Rule rule = byId.get();
+        String chatId = rule.getChatId();
+
+//        sendMessage.setChatId(Constatns.SENDER_CHAT_ID);
+        sendMessage.setChatId(chatId);
 
         String repo = "";
         int count = 1;

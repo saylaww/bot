@@ -1,6 +1,7 @@
 package com.example.bot.controller;
 
 import com.example.bot.payload.ApiResponse;
+import com.example.bot.payload.ChatDto;
 import com.example.bot.payload.DateDto;
 import com.example.bot.payload.TimeDto;
 import com.example.bot.service.BotService;
@@ -56,6 +57,12 @@ public class BotController {
     @PutMapping("/editTime")
     public HttpEntity<?> editTime(@RequestBody TimeDto timeDto) {
         ApiResponse apiResponse = botService.editTime(timeDto);
+        return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
+    }
+
+    @PutMapping("/editChatId")
+    public HttpEntity<?> editChatId(@RequestBody ChatDto chatDto) {
+        ApiResponse apiResponse = botService.editChatId(chatDto);
         return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
     }
 
