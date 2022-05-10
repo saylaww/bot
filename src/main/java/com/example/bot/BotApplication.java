@@ -228,7 +228,7 @@ public class BotApplication extends TelegramLongPollingBot {
     }
 
 
-    @Scheduled(cron = "0 0 12 * * *")
+    @Scheduled(cron = "0 20 12 * * *")
     public void test() throws Exception {
         Timestamp start = new Timestamp(System.currentTimeMillis());
         Timestamp end = new Timestamp(System.currentTimeMillis());
