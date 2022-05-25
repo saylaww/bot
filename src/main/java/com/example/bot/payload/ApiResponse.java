@@ -15,7 +15,7 @@ public class ApiResponse {
 
     private boolean success;
 
-    private Object object;
+    private Object data;
 
     public ApiResponse(String message, boolean success) {
         this.message = message;

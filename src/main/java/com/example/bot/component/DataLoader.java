@@ -1,5 +1,6 @@
 package com.example.bot.component;
 
+import com.example.bot.Constatns;
 import com.example.bot.entity.Role;
 import com.example.bot.entity.Rule;
 import com.example.bot.entity.User;
@@ -33,7 +34,7 @@ public class DataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         if (initialMode.equals("always")) {
-            ruleRepository.save(new Rule("0","23","1","59","122004314"));
+            ruleRepository.save(new Rule("0","23","1","59","122004314", Constatns.SEND_HOUR, Constatns.SEND_MINUTE));
 
             Role sAdmin = roleRepository.save(new Role(
                     RoleName.SUPER_ADMIN

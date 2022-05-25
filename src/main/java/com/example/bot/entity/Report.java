@@ -39,5 +39,10 @@ public class Report {
         this.messageId = messageId;
     }
 
-
+    public Report(@NotNull String url, Timestamp date, Supervisor supervisor, @NotNull String messageId) {
+        this.url = url;
+        this.date = date;
+        this.supervisor = supervisor;
+        this.messageId = messageId;
+    }
 }

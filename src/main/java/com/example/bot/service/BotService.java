@@ -40,7 +40,8 @@ public class BotService {
         return new ApiResponse("Supervisor list:", true, all);
     }
 
-    public ApiResponse byDate(DateDto dateDto) throws ParseException {
+    public ApiResponse byDate(String start, String end) throws ParseException {
+        DateDto dateDto = new DateDto(start, end);
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
         Date date = dateFormat.parse(dateDto.getStart());
@@ -61,7 +62,8 @@ public class BotService {
     }
 
 
-    public ApiResponse byDateSupervisor(Long id, DateDto dateDto) throws ParseException {
+    public ApiResponse byDateSupervisor(Long id, String start, String end) throws ParseException {
+        DateDto dateDto = new DateDto(start, end);
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
         Date date = dateFormat.parse(dateDto.getStart());

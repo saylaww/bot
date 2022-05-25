@@ -8,6 +8,7 @@ import com.example.bot.payload.TimeDto;
 import com.example.bot.repository.ReportRepository;
 import com.example.bot.repository.RuleRepository;
 import com.example.bot.repository.SupervisorRepository;
+import org.glassfish.grizzly.http.util.TimeStamp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -20,9 +21,12 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import javax.annotation.PostConstruct;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.*;
+
+import static com.fasterxml.jackson.databind.type.LogicalType.DateTime;
 
 @SpringBootApplication
 @EnableScheduling
@@ -51,14 +55,22 @@ public class BotApplication extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
+
+        System.out.println(update.getMessage().getChat().getId().toString());
+        System.out.println(update.getMessage().getChatId().toString());
+//        System.out.println(update.getMessage().getChat().getId());
+
+
         checkSupervisor(update);
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(String.valueOf(update.getMessage().getChatId()));
 
+
+
         Optional<Rule> optionalRule = ruleRepository.findById(1);
         Rule rule = optionalRule.get();
 
-        if (update.getMessage().hasVideoNote()) {
+        if (update.getMessage().hasVideoNote()  && update.getMessage().getForwardDate() == null) {
 
             ///////////////////////
 //            Optional<Report> byId = reportRepository.findById(6L);
@@ -85,6 +97,7 @@ public class BotApplication extends TelegramLongPollingBot {
 //                        String urls = "https://api.telegram.org/file/bot" +Constants.BOT_TOKEN+ '/' +filePath;
 
                             /////
+
                             Optional<Supervisor> byChatId = supervisorRepository.findByChatId(update.getMessage().getFrom().getId().toString());
                             Supervisor supervisor = byChatId.get();
                             String txt = "https://t.me/c/" + (update.getMessage().getChatId() % 10000000000l*(-1)) + "/" + update.getMessage().getMessageId();
@@ -109,11 +122,20 @@ public class BotApplication extends TelegramLongPollingBot {
                             Optional<Supervisor> byChatId = supervisorRepository.findByChatId(update.getMessage().getFrom().getId().toString());
                             Supervisor supervisor = byChatId.get();
                             String txt = "https://t.me/c/" + (update.getMessage().getChatId() % 10000000000l*(-1)) + "/" + update.getMessage().getMessageId();
+
+//                            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+
                             Report report = new Report(
                                     txt,
                                     supervisor,
                                     update.getMessage().getMessageId().toString()
                             );
+//                            Report report1 = new Report(
+//                                    txt,
+//                                    timestamp,
+//                                    supervisor,
+//                                    update.getMessage().getMessageId().toString()
+//                            );
                             reportRepository.save(report);
 
                             sendMessage.setText(txt);
@@ -150,6 +172,7 @@ public class BotApplication extends TelegramLongPollingBot {
                             /////
                             Optional<Supervisor> byChatId = supervisorRepository.findByChatId(update.getMessage().getFrom().getId().toString());
                             Supervisor supervisor = byChatId.get();
+//                            String txt = "https://t.me/c/" + (update.getMessage().getChatId()*(-1)) + "/" + update.getMessage().getMessageId();
                             String txt = "https://t.me/c/" + (update.getMessage().getChatId() % 10000000000l*(-1)) + "/" + update.getMessage().getMessageId();
                             Report report = new Report(
                                     txt,
@@ -227,8 +250,7 @@ public class BotApplication extends TelegramLongPollingBot {
         return result.getTime();
     }
 
-
-    @Scheduled(cron = "0 20 12 * * *")
+    @Scheduled(cron = "0 " + Constatns.SEND_MINUTE +" " + Constatns.SEND_HOUR + " * * *")
     public void test() throws Exception {
         Timestamp start = new Timestamp(System.currentTimeMillis());
         Timestamp end = new Timestamp(System.currentTimeMillis());
@@ -296,13 +318,11 @@ public class BotApplication extends TelegramLongPollingBot {
             SendMessage sendMessage = new SendMessage();
             Optional<Supervisor> optionalSupervisor = supervisorRepository.findById(1l);
 
-//            sendMessage.setChatId("-775391212");
             sendMessage.setChatId(optionalSupervisor.get().getGroupChatId());
             sendMessage.setText("Video jiberiw waqitlar o'zgerdi!!! " + timeDto.getStartHour() + ":" + timeDto.getStartMinute() + " dan " +
                     timeDto.getEndHour() + ":" + timeDto.getEndMinute() + " qa o'zgerdi!!!");
 
             Message execute = execute(sendMessage);
-//            Integer messageId = execute(sendMessage).getMessageId();
 
             // Pin group message
             Optional<Supervisor> byId = supervisorRepository.findById(1l);

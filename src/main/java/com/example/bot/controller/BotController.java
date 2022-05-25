@@ -22,6 +22,16 @@ public class BotController {
     @Autowired
     BotService botService;
 
+
+
+//    @PreAuthorize(value = "hasAnyAuthority('SUPER_ADMIN','ADMIN')")
+//    @GetMapping("/test")
+//    public HttpEntity<?> getTest() {
+//        ApiResponse apiResponse = botService.getAllSupervisors();
+//
+//        return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
+//    }
+
     @PreAuthorize(value = "hasAnyAuthority('SUPER_ADMIN','ADMIN')")
     @GetMapping("/getAllSupervisor")
     public HttpEntity<?> getSupervisors() {
@@ -45,15 +55,16 @@ public class BotController {
 
     @PreAuthorize(value = "hasAnyAuthority('SUPER_ADMIN','ADMIN')")
     @GetMapping("/byDate")
-    public HttpEntity<?> getByDate(@RequestBody DateDto dateDto) throws ParseException {
-        ApiResponse apiResponse = botService.byDate(dateDto);
+    public HttpEntity<?> getByDate(@RequestParam String start, @RequestParam String end) throws ParseException {
+
+        ApiResponse apiResponse = botService.byDate(start, end);
         return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
     }
 
     @PreAuthorize(value = "hasAnyAuthority('SUPER_ADMIN','ADMIN')")
     @GetMapping("/byDateSupervisor/{id}")
-    public HttpEntity<?> getByDateSupervisor(@RequestBody DateDto dateDto, @PathVariable Long id) throws ParseException {
-        ApiResponse apiResponse = botService.byDateSupervisor(id, dateDto);
+    public HttpEntity<?> getByDateSupervisor(@RequestParam String start,@RequestParam String end, @PathVariable Long id) throws ParseException {
+        ApiResponse apiResponse = botService.byDateSupervisor(id, start, end);
         return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
     }
 
