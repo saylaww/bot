@@ -3,6 +3,7 @@ package com.example.bot;
 import com.example.bot.entity.Report;
 import com.example.bot.entity.Rule;
 import com.example.bot.entity.Supervisor;
+import com.example.bot.payload.RepDto;
 import com.example.bot.payload.ReportDto;
 import com.example.bot.payload.TimeDto;
 import com.example.bot.repository.ReportRepository;
@@ -24,6 +25,8 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import javax.annotation.PostConstruct;
 import java.sql.Timestamp;
 import java.text.ParseException;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.*;
 
 import static com.fasterxml.jackson.databind.type.LogicalType.DateTime;
@@ -55,29 +58,23 @@ public class BotApplication extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
+        LocalDate localDate = LocalDate.now();
+        DayOfWeek currentDay = localDate.getDayOfWeek();
 
-        System.out.println(update.getMessage().getChat().getId().toString());
-        System.out.println(update.getMessage().getChatId().toString());
-//        System.out.println(update.getMessage().getChat().getId());
-
+//        if (currentDay.getValue()!=DayOfWeek.SUNDAY.getValue()){
+//            System.out.println("DURIS");
+//        }
 
         checkSupervisor(update);
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(String.valueOf(update.getMessage().getChatId()));
 
-
-
         Optional<Rule> optionalRule = ruleRepository.findById(1);
         Rule rule = optionalRule.get();
 
-        if (update.getMessage().hasVideoNote()  && update.getMessage().getForwardDate() == null) {
-
-            ///////////////////////
-//            Optional<Report> byId = reportRepository.findById(6L);
-//            Report tst = byId.get();
-//            System.out.println(tst.getDate().toString());
-            /////////////////
-
+        if (update.getMessage().hasVideoNote()  &&
+                update.getMessage().getForwardDate() == null &&
+                currentDay.getValue()!=DayOfWeek.SUNDAY.getValue()) {
 
             Date date1 = convertIntToDate(update.getMessage().getDate());
 
@@ -286,6 +283,8 @@ public class BotApplication extends TelegramLongPollingBot {
         }
 
         SendMessage sendMessage = new SendMessage();
+        sendMessage.enableHtml(true);
+
         Optional<Rule> byId = ruleRepository.findById(1);
         if (!byId.isPresent()){
             throw new Exception("Bunday qagi'yda ya'ki chat_id tabilmadi!!!");
@@ -299,7 +298,7 @@ public class BotApplication extends TelegramLongPollingBot {
         String repo = "";
         int count = 1;
         java.sql.Date date = new java.sql.Date(System.currentTimeMillis());
-        repo = repo + date + "\n\n";
+        repo = repo + "<b>"+ date + "</b>\n\n";
         for (ReportDto reportDto : reportDtoSet) {
             if (reportDto.getTime()==null){
                 repo = repo + count +" - " + reportDto.getSupervisor().getFirstName() + " "+ reportDto.getSupervisor().getLastName() + "     " +"Taslamadi\n";
@@ -345,5 +344,88 @@ public class BotApplication extends TelegramLongPollingBot {
             return false;
         }
     }
+
+    @Scheduled(cron = "0 "+Constatns.SEND_MONTH_MINUTE + " " + Constatns.SEND_MONTH_HOUR +" * * *")
+    public void reportMonth() throws Exception {
+
+        String[] monthName = {"Yanvar", "Fevral",
+                "Mart", "Aprel", "May", "Iyun", "Iyul",
+                "August", "Sentyabr", "Oktyabr", "Noyabr",
+                "Dekabr"};
+
+        Calendar cal = Calendar.getInstance();
+        String month = monthName[cal.get(Calendar.MONTH)];
+
+        /////////////////////
+
+        int lastDay = Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH);
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        int currentDay = timestamp.getDate();
+
+        timestamp.setDate(1);
+        timestamp.setHours(0);
+        timestamp.setMinutes(0);
+        timestamp.setSeconds(1);
+
+        Timestamp end = new Timestamp(System.currentTimeMillis());
+        end.setDate(lastDay);
+        end.setHours(23);
+        end.setMinutes(59);
+        end.setSeconds(59);
+
+        if (lastDay == currentDay){
+            List<Supervisor> supervisors = supervisorRepository.findAll();
+
+            Set<RepDto> repDtoSet = new HashSet<>();
+
+            for (Supervisor supervisor : supervisors) {
+//                Set<Report> reports = reportRepository.findDistinctBySupervisorIdAndDateBetween(supervisor.getId(), timestamp, end);
+                Set<Report> reports = reportRepository.findDistinctByDateBetweenAndSupervisorId(timestamp, end, supervisor.getId());
+
+                RepDto repDto = new RepDto();
+                repDto.setSupervisor(supervisor);
+
+                int counter = 0;
+                for (int i = 1; i <= lastDay; i++) {
+
+                    for (Report report : reports) {
+                        if (i==report.getDate().getDate()){
+                            counter++;
+                            break;
+                        }
+                    }
+                }
+                repDto.setCount(counter);
+
+                repDtoSet.add(repDto);
+            }
+
+            SendMessage sendMessage = new SendMessage();
+
+            Optional<Rule> byId = ruleRepository.findById(1);
+            if (!byId.isPresent()){
+                throw new Exception("Bunday qagi'yda ya'ki chat_id tabilmadi!!!");
+            }
+            Rule rule = byId.get();
+            String chatId = rule.getChatId();
+
+            sendMessage.setChatId(chatId);
+            sendMessage.enableHtml(true);
+
+            String repo = "";
+            int num = 1;
+            java.sql.Date date = new java.sql.Date(System.currentTimeMillis());
+            repo = repo +"<b>"+ date + " - " + month + " ayi ushin esabat.</b>\n\n";
+            for (RepDto reportDto : repDtoSet) {
+                repo = repo+ num +" - " + reportDto.getSupervisor().getFirstName()+" "+ reportDto.getSupervisor().getLastName() + "     " + reportDto.getCount() + " - video tasladi\n";
+                num++;
+            }
+
+            sendMessage.setText(repo);
+            execute(sendMessage);
+        }
+
+    }
+
 
 }

@@ -22,16 +22,6 @@ public class BotController {
     @Autowired
     BotService botService;
 
-
-
-//    @PreAuthorize(value = "hasAnyAuthority('SUPER_ADMIN','ADMIN')")
-//    @GetMapping("/test")
-//    public HttpEntity<?> getTest() {
-//        ApiResponse apiResponse = botService.getAllSupervisors();
-//
-//        return ResponseEntity.status(apiResponse.isSuccess() ? 200 : 409).body(apiResponse);
-//    }
-
     @PreAuthorize(value = "hasAnyAuthority('SUPER_ADMIN','ADMIN')")
     @GetMapping("/getAllSupervisor")
     public HttpEntity<?> getSupervisors() {

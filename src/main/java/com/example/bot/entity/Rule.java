@@ -30,6 +30,9 @@ public class Rule {
     private String sendHour;
     private String sendMinute;
 
+    private String sendMontHour;
+    private String sendMontMinute;
+
     public Rule(String startHour, String endHour, String startMinute, String endMinute) {
         this.startHour = startHour;
         this.endHour = endHour;
@@ -45,6 +48,18 @@ public class Rule {
         this.chatId = chatId;
         this.sendHour = sendHour;
         this.sendMinute = sendMinute;
+    }
+
+    public Rule(String startHour, String endHour, String startMinute, String endMinute, String chatId, String sendHour, String sendMinute, String sendMontHour, String sendMontMinute) {
+        this.startHour = startHour;
+        this.endHour = endHour;
+        this.startMinute = startMinute;
+        this.endMinute = endMinute;
+        this.chatId = chatId;
+        this.sendHour = sendHour;
+        this.sendMinute = sendMinute;
+        this.sendMontHour = sendMontHour;
+        this.sendMontMinute = sendMontMinute;
     }
 
     public Rule(String startHour, String endHour, String startMinute, String endMinute, String chatId) {
